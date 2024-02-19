@@ -19,7 +19,7 @@ sys.path.insert(0, parent_dir)
 from sql_agent.agent import create_agent
 from streamlit_app.gen_final_output import display_text_with_images
 
-st.set_page_config(page_title="Rappel conso")
+st.set_page_config(page_title="AltumBot")
 
 
 def generate_response(input_text):

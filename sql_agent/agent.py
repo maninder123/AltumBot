@@ -9,7 +9,7 @@ from utils import get_chat_openai
 from tools.functions_tools import sql_agent_tools
 #from database.sql_db_langchain import db
 from database.redshift_db_langchain import db
-from .agent_constants import CUSTOM_SUFFIX
+from .agent_constants import CUSTOM_SUFFIX, CUSTOM_PREFIX
 
 
 def get_sql_toolkit(tool_llm_name: str):
@@ -63,9 +63,10 @@ def create_agent(
 
     agent = create_sql_agent(
         llm=llm_agent,
+        input_variables=["input", "agent_scratchpad", "history"],
+        prefix=CUSTOM_PREFIX,
         toolkit=toolkit,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        input_variables=["input", "agent_scratchpad", "history"],
         suffix=CUSTOM_SUFFIX,
         agent_executor_kwargs={"memory": memory},
         extra_tools=agent_tools,
