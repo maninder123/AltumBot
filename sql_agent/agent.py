@@ -71,5 +71,6 @@ def create_agent(
         agent_executor_kwargs={"memory": memory},
         extra_tools=agent_tools,
         verbose=True,
+        handle_parsing_errors=True,
     )
     return agent

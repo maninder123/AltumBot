@@ -49,7 +49,7 @@ if "agent" not in st.session_state:
     st.session_state.agent = create_agent()
 
 
-st.title("Rappel conso QA :rotating_light: :health_worker: :flag-fr:")
+st.title("AltumBot")
 col1, col2 = st.columns([3, 1])
 with col2:
     st.button("Reset Chat", on_click=reset_conversation)

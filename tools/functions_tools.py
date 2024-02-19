@@ -4,7 +4,7 @@ from datetime import datetime
 
 from langchain.tools import Tool
 
-from database.sql_db_langchain import db
+from database.redshift_db_langchain import db
 from tools.tools_constants import COLUMNS_DESCRIPTIONS
 
 
@@ -63,6 +63,27 @@ def get_today_date(query: str) -> str:
     today_date_string = datetime.now().strftime("%Y-%m-%d")
     return today_date_string
 
+from sqlalchemy import create_engine, text
+
+def get_tables_list(query: str) -> str:
+    """
+    Retrieves a list of all tables in the specified schema of the Redshift database.
+
+    Returns:
+    - list: A list of table names in the specified schema.
+    """
+  
+    # Define the SQL query to retrieve table names
+    table_names = run_query_save_results(
+        db, "SELECT table_name FROM information_schema.tables WHERE table_schema= 'bebe'"
+    )
+
+    table_name_str = (
+        "List of tables in the bebe schema of the database : \n"
+        + json.dumps(table_names, ensure_ascii=False)
+    )
+    #print('Maninder ----------------------------', table_name_str);
+    return table_name_str
 
 def sql_agent_tools():
     tools = [
@@ -81,6 +102,12 @@ def sql_agent_tools():
         #     Useful to get the description of the columns in the rappel_conso_table table.
         #     """,
         # ),
+        
+        Tool.from_function(
+            func=get_tables_list,
+            name="get_tables_list",
+            description=""" Usefull to get the list of tables.""", 
+        ),
         Tool.from_function(
             func=get_today_date,
             name="get_today_date",
