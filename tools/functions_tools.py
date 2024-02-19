@@ -66,21 +66,21 @@ def get_today_date(query: str) -> str:
 
 def sql_agent_tools():
     tools = [
-        Tool.from_function(
-            func=get_categories,
-            name="get_categories_and_sub_categories",
-            description="""
-            Useful to get categories and sub_categories. A json is returned where the key can be category or sub_category, 
-            and the value is a list of unique items for either both.
-            """,
-        ),
-        Tool.from_function(
-            func=get_columns_descriptions,
-            name="get_columns_descriptions",
-            description="""
-            Useful to get the description of the columns in the rappel_conso_table table.
-            """,
-        ),
+        # Tool.from_function(
+        #     func=get_categories,
+        #     name="get_categories_and_sub_categories",
+        #     description="""
+        #     Useful to get categories and sub_categories. A json is returned where the key can be category or sub_category, 
+        #     and the value is a list of unique items for either both.
+        #     """,
+        # ),
+        # Tool.from_function(
+        #     func=get_columns_descriptions,
+        #     name="get_columns_descriptions",
+        #     description="""
+        #     Useful to get the description of the columns in the rappel_conso_table table.
+        #     """,
+        # ),
         Tool.from_function(
             func=get_today_date,
             name="get_today_date",

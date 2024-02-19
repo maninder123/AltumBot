@@ -65,10 +65,10 @@ def create_agent(
         llm=llm_agent,
         toolkit=toolkit,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-       # input_variables=["input", "agent_scratchpad", "history"],
-       # suffix=CUSTOM_SUFFIX,
+        input_variables=["input", "agent_scratchpad", "history"],
+        suffix=CUSTOM_SUFFIX,
         agent_executor_kwargs={"memory": memory},
-       # extra_tools=agent_tools,
+        extra_tools=agent_tools,
         verbose=True,
     )
     return agent
