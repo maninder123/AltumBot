@@ -7,7 +7,8 @@ from langchain.memory import ConversationBufferMemory
 
 from utils import get_chat_openai
 from tools.functions_tools import sql_agent_tools
-from database.sql_db_langchain import db
+#from database.sql_db_langchain import db
+from database.redshift_db_langchain import db
 from .agent_constants import CUSTOM_SUFFIX
 
 
@@ -64,10 +65,10 @@ def create_agent(
         llm=llm_agent,
         toolkit=toolkit,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        input_variables=["input", "agent_scratchpad", "history"],
-        suffix=CUSTOM_SUFFIX,
+       # input_variables=["input", "agent_scratchpad", "history"],
+       # suffix=CUSTOM_SUFFIX,
         agent_executor_kwargs={"memory": memory},
-        extra_tools=agent_tools,
+       # extra_tools=agent_tools,
         verbose=True,
     )
     return agent
