@@ -11,7 +11,7 @@ redshift_dbname = "analytics"
 redshift_schema = "bebe"  # Specify your schema here
 
 # Construct the Redshift connection URI
-redshift_url = f"redshift+psycopg2://{redshift_user}:{redshift_password}@{redshift_host}:{redshift_port}/{redshift_dbname}"
+redshift_url = f"redshift+psycopg2://{redshift_user}:{redshift_password}@{redshift_host}:{redshift_port}/{redshift_dbname}?options=--search_path={redshift_schema}"
 # Specify the schema and table name
 #redshift_schema = "bebe"
 TABLE_NAME = "orders"
