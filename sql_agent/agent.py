@@ -1,15 +1,12 @@
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-
+from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain.agents.agent_types import AgentType
 from langchain.agents import create_sql_agent
 from langchain.memory import ConversationBufferMemory
 
-
 from utils import get_chat_openai
 from tools.functions_tools import sql_agent_tools
-#from database.sql_db_langchain import db
 from database.redshift_db_langchain import db
-from .agent_constants import CUSTOM_SUFFIX, CUSTOM_PREFIX
+from agent_constants import CUSTOM_SUFFIX, CUSTOM_PREFIX
 
 
 def get_sql_toolkit(tool_llm_name: str):
@@ -22,8 +19,8 @@ def get_sql_toolkit(tool_llm_name: str):
     Returns:
         SQLDatabaseToolkit: The SQL toolkit object.
     """
-    llm_tool = get_chat_openai(model_name=tool_llm_name)
-    toolkit = SQLDatabaseToolkit(db=db, llm=llm_tool)
+    tool_language_model = get_chat_openai(model_name=tool_llm_name)
+    toolkit = SQLDatabaseToolkit(db=db, llm=tool_language_model)
     return toolkit
 
 
@@ -55,7 +52,6 @@ def create_agent(
     Returns:
         agent: The created SQL agent.
     """
-
     agent_tools = sql_agent_tools()
     llm_agent = get_agent_llm(agent_llm_name)
     toolkit = get_sql_toolkit(tool_llm_name)
@@ -68,9 +64,9 @@ def create_agent(
         toolkit=toolkit,
         agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         suffix=CUSTOM_SUFFIX,
+        handle_parsing_errors=True,
         agent_executor_kwargs={"memory": memory},
         extra_tools=agent_tools,
         verbose=True,
-        handle_parsing_errors=True,
     )
     return agent

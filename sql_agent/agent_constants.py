@@ -13,16 +13,32 @@ maintaining trustworthiness is crucial.
 
 
 CUSTOM_PREFIX = """
-    - Given an input
-    - Use the database name is "analytics".
-    - Use the schema "bebe" to create the syntactically correct redshift query to run,
-    then look at the results of the redshift query and return the answer.
-    - If the question is related to prepare the redshift query, then prepare the query else response error.
-    - Must return the redshift query after 'FROM' keyword database name and table name.
-    - Example redshift query is : SELECT * FROM bebe.orders ORDER BY total_price DESC LIMIT 100; generate query like this.
+    once you are connect to the databse, you need to look for bebe schema. inside this schema we have multiple tables but only 5 tables will be used to answer questions. 
+    the 4 related tables are 'Orders', 'fulfillments',  'line_items', 'refunds' and 'discounts'
+    Below is the structure of these 5 tables 
+    - Columns in order table are  'order_id', "customer_id","source","status","cancel_reason","cancelled_at", "currency","total_price","current_total_price",
+            "subtotal_price","current_subtotal_price","total_tax", "current_total_tax", "total_shipping","current_total_shipping","total_discount","current_total_discount",
+            "customer_locale", "city","province_code", "postal_code","country_code","latitude","longitude","created_at","updated_at","closed_at","file_timestamp","total_refund",
+            "current_total_refund"
+ 
+    - Columns in line_items table are  "product_id", "variant_id", "order_id","item_id","sku","upc","name", "color", "shape","size","style","material","status","quantity",
+            "vendor","cancel_quantity", "cancel_reason","unit_price", "tax","shipping","discount","weight", "weight_uom","created_at", "updated_at", "refund_subtotal",
+            "refund_tax","refund_quantity","rank","unit_cost"
+
+    - Columns in fulfillments table are  "fulfillment_id","order_id","location_id", "item_id","quantity","status","service", "carrier","label_cost","created_at","updated_at"
+      
+    - Columns in discounts table are "order_id","code","title","method","amount","amount_type","created_at"
     
-    Use the following format:
-    Question: Question here
-    Answer: Final answer here
+    - Columns in refunds table are "order_id","refund_id","amount","refund_subtotal","refund_tax","refund_quantity", "order_adjustments_amount","created_at","processed_at"
+ 
+    Few Example Question and Their sql query 
+    Questions: Get the list of items whose unit price is more than 10000
+    Sql Query : SELECT * FROM bebe.line_items WHERE unit_price > 10000;
+
+    Question: Get the list of orders created this year
+    Sql query : SELECT * FROM bebe.orders WHERE created_at > '2024-01-01'
+
+    Note: Important to node that in every query in the From table part include the schema name as well 
+    for example if the schema is bebe and table is orders then it should say From bebe.orders
 
     """

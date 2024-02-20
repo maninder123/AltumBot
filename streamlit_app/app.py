@@ -64,7 +64,7 @@ for message in st.session_state.messages:
 
 
 # Accept user input
-if prompt := st.chat_input("Please ask your question / Posez votre question:"):
+if prompt := st.chat_input("Please ask your question:"):
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
